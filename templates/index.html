@@ -1,6 +1,552 @@
-{% extends 'layout.html' %} {% block content %}
-<div class="container"></div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Habitly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --primary: #3b82f6;
+        --muted: #f3f4f6;
+        --muted-foreground: #6b7280;
+        --border: #e5e7eb;
+        --badge-bg: #e0e7ff;
+        --badge-color: #3730a3;
+      }
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #fafbfc;
+        color: #222;
+      }
+      header {
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+      }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .header-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: var(--primary);
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .streak {
+        text-align: center;
+      }
+      .streak-label {
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+        margin: 0;
+      }
+      .badge {
+        display: inline-block;
+        background: var(--badge-bg);
+        color: var(--badge-color);
+        border-radius: 0.5rem;
+        padding: 0.2rem 0.7rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin-top: 0.2rem;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: background 0.2s;
+      }
+      .icon-btn:hover {
+        background: var(--muted);
+      }
+      .avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        display: inline-block;
+        background: var(--muted);
+        text-align: center;
+        line-height: 2.5rem;
+        font-weight: bold;
+        color: var(--primary);
+      }
+      /* Club Section */
+      .section {
+        max-width: 700px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      .card {
+        background: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .card h2 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .card .text-muted-foreground {
+        color: var(--muted-foreground);
+      }
+      .club-img {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 1rem;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 1.5rem auto;
+      }
+      .input-row {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .input-row input {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+      }
+      .btn {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+      .btn:hover {
+        background: #2563eb;
+      }
+      .btn-outline {
+        background: #fff;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        margin-top: 0.5rem;
+      }
+      .btn-outline:hover {
+        background: var(--primary);
+        color: #fff;
+      }
+      .club-members-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+      .club-members-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .badge-secondary {
+        background: var(--muted);
+        color: #222;
+        font-size: 0.95rem;
+        border-radius: 0.5rem;
+        padding: 0.2rem 0.7rem;
+      }
+      .members-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .member-card {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        transition: background 0.2s;
+        background: #fff;
+      }
+      .member-card:hover {
+        background: var(--muted);
+      }
+      .member-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .member-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .member-info p {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .member-info .role {
+        font-size: 0.85rem;
+        color: var(--muted-foreground);
+      }
+      .member-streak {
+        text-align: right;
+        font-size: 0.95rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+      }
+      .leaderboard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--muted);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        gap: 1rem;
+      }
+      .leaderboard-icon {
+        font-size: 2rem;
+        color: var(--primary);
+      }
+      .leaderboard-text {
+        text-align: left;
+      }
+      /* Progress Chart Placeholder */
+      .progress-card {
+        background: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .progress-placeholder {
+        width: 100%;
+        height: 16rem;
+        background: linear-gradient(135deg, #e0e7ff 60%, #f3f4f6 100%);
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: 1rem;
+      }
+      @media (max-width: 600px) {
+        .section {
+          padding: 0 0.5rem;
+        }
+        .members-grid {
+          grid-template-columns: 1fr;
+        }
+        .header-inner {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header-inner">
+        <div class="header-left">
+          <button class="icon-btn" aria-label="Menu" style="display:none;">
+            <!-- Menu icon (hidden on desktop) -->
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M3 6h14M3 12h14M3 18h14" />
+            </svg>
+          </button>
+          <div class="header-logo">
+            <img
+              src="/static/icons/favicon.ico"
+              alt="Habitly Logo"
+              style="width:2rem;height:2rem;border-radius:0.5rem;"
+            />
+            <span class="header-title">Habitly</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="streak">
+            <p class="streak-label">Current Streak</p>
+            <span class="badge">12 days 🔥</span>
+          </div>
+          <a
+            href="/habits"
+            style="color:var(--primary);text-decoration:none;font-weight:500;"
+          >
+            My Habits
+          </a>
+          <button class="icon-btn" aria-label="Notifications">
+            <!-- Bell icon -->
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 00-3 0v0.68C5.64 5.36 4 7.929 4 11v3.159c0 .538-.214 1.055-.595 1.436L2 17h5m8 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+          </button>
+          <button class="icon-btn" aria-label="Settings">
+            <!-- Settings icon -->
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="10" cy="10" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09A1.65 1.65 0 009 3.09V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09c0 .66.26 1.3.73 1.77.47.47 1.11.73 1.77.73h.09a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+          </button>
+          <span class="avatar">
+            <img
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face"
+              alt="User"
+              style="width:100%;height:100%;object-fit:cover;"
+            />
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <!-- Club Section -->
+      <div class="card">
+        <div class="text-center" style="margin-bottom:1.5rem;">
+          <h2>Join a Club</h2>
+          <p class="text-muted-foreground" style="font-size:1rem;">
+            Join a club based on your interests and compete with friends to reach
+            your goals
+          </p>
+        </div>
+        <img
+          class="club-img"
+          src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGZyaWVuZHN8ZW58MXx8fHwxNzU3MDQ0NDE2fDA&ixlib=rb-4.1.0&q=80&w=400"
+          alt="Team collaboration"
+        />
+        <form class="input-row" onsubmit="return false;">
+          <input type="text" placeholder="Enter club code" />
+          <button class="btn" type="submit">Join Club</button>
+        </form>
+        <button class="btn btn-outline" style="width:100%;">
+          <span style="margin-right:0.5rem;vertical-align:middle;">
+            <!-- Plus icon -->
+            <svg
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="vertical-align:middle;"
+            >
+              <path d="M9 4v10M4 9h10" />
+            </svg>
+          </span>
+          Create New Club
+        </button>
+      </div>
+
+      <!-- Current Club Members -->
+      <div class="card">
+        <div class="club-members-header">
+          <div class="club-members-title">
+            <!-- Users icon -->
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="var(--primary)"
+              stroke-width="2"
+            >
+              <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 00-3-3.87" />
+            </svg>
+            <h2>My Club</h2>
+          </div>
+          <span class="badge-secondary">4 members</span>
+        </div>
+        <div class="members-grid">
+          <!-- Member 1 -->
+          <div class="member-card">
+            <img
+              class="member-avatar"
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face"
+              alt="Alex"
+            />
+            <div class="member-info">
+              <p>Alex</p>
+              <span class="role">Productivity</span>
+            </div>
+            <div class="member-streak">
+              <!-- TrendingUp icon -->
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="3 12 7 8 11 12" />
+                <polyline points="7 8 7 3" />
+              </svg>
+              25
+            </div>
+          </div>
+          <!-- Member 2 -->
+          <div class="member-card">
+            <img
+              class="member-avatar"
+              src="https://images.unsplash.com/photo-1494790108755-2616b73e09d8?w=64&h=64&fit=crop&crop=face"
+              alt="Sam"
+            />
+            <div class="member-info">
+              <p>Sam</p>
+              <span class="role">Self-care</span>
+            </div>
+            <div class="member-streak">
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="3 12 7 8 11 12" />
+                <polyline points="7 8 7 3" />
+              </svg>
+              18
+            </div>
+          </div>
+          <!-- Member 3 -->
+          <div class="member-card">
+            <img
+              class="member-avatar"
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face"
+              alt="Jordan"
+            />
+            <div class="member-info">
+              <p>Jordan</p>
+              <span class="role">UX</span>
+            </div>
+            <div class="member-streak">
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="3 12 7 8 11 12" />
+                <polyline points="7 8 7 3" />
+              </svg>
+              32
+            </div>
+          </div>
+          <!-- Member 4 -->
+          <div class="member-card">
+            <img
+              class="member-avatar"
+              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face"
+              alt="Taylor"
+            />
+            <div class="member-info">
+              <p>Taylor</p>
+              <span class="role">Habits</span>
+            </div>
+            <div class="member-streak">
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="3 12 7 8 11 12" />
+                <polyline points="7 8 7 3" />
+              </svg>
+              15
+            </div>
+          </div>
+        </div>
+        <div class="leaderboard">
+          <!-- Trophy icon -->
+          <svg
+            class="leaderboard-icon"
+            width="32"
+            height="32"
+            fill="none"
+            stroke="var(--primary)"
+            stroke-width="2"
+          >
+            <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z" />
+            <path d="M17 9a5 5 0 01-10 0" />
+          </svg>
+          <div class="leaderboard-text">
+            <div class="font-medium">Leaderboard</div>
+            <div
+              class="text-muted-foreground"
+              style="font-size:0.95rem;"
+            >
+              Jordan is leading with 32 days!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Chart (Placeholder) -->
+      <div class="progress-card">
+        <h2>Habits Completed</h2>
+        <p class="text-muted-foreground" style="font-size:1rem;">
+          Track your habit completion over the week
+        </p>
+        <div class="progress-placeholder">
+          [Progress Chart Placeholder]
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
 
 
 

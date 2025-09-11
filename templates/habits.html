@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Habits - Habitly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --border: #e5e7eb;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fafbfc;
+      color: #222;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .header-logo img {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.5rem;
+    }
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .section {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .habit-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .habit-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.05rem;
+      transition: background 0.2s;
+    }
+    .habit-item:last-child {
+      border-bottom: none;
+    }
+    .habit-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    .habit-checkbox {
+      width: 1.2rem;
+      height: 1.2rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .habit-item.completed .habit-label span {
+      text-decoration: line-through;
+      color: var(--muted-foreground);
+    }
+    .add-habit-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .add-habit-row input {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #2563eb;
+    }
+    @media (max-width: 600px) {
+      .section {
+        padding: 0 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="/static/icons/favicon.ico" alt="Habitly Logo" style="width:2rem;height:2rem;border-radius:0.5rem;" />
+        <span class="header-title">Habitly</span>
+      </div>
+      <a href="/" style="color:var(--primary);text-decoration:none;font-weight:500;">Home</a>
+    </div>
+  </header>
+  <main class="section">
+    <div class="card">
+      <h2>My Habits</h2>
+      <form class="add-habit-row" id="addHabitForm" autocomplete="off">
+        <input type="text" id="habitInput" placeholder="Add a new habit..." required />
+        <button class="btn" type="submit">Add</button>
+      </form>
+      <ul class="habit-list" id="habitList">
+        <!-- Habits will appear here -->
+      </ul>
+    </div>
+  </main>
+  <script>
+    // Simple local habit list (not persistent)
+    const habitList = document.getElementById('habitList');
+    const addHabitForm = document.getElementById('addHabitForm');
+    const habitInput = document.getElementById('habitInput');
+
+    function createHabitItem(text) {
+      const li = document.createElement('li');
+      li.className = 'habit-item';
+      const label = document.createElement('label');
+      label.className = 'habit-label';
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'habit-checkbox';
+      const span = document.createElement('span');
+      span.textContent = text;
+      label.appendChild(checkbox);
+      label.appendChild(span);
+      li.appendChild(label);
+
+      checkbox.addEventListener('change', function() {
+        li.classList.toggle('completed', checkbox.checked);
+      });
+
+      return li;
+    }
+
+    addHabitForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = habitInput.value.trim();
+      if (text) {
+        const item = createHabitItem(text);
+        habitList.appendChild(item);
+        habitInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

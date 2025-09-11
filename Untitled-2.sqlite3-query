@@ -1,0 +1,3 @@
+-- database: c:\Users\sahar\OneDrive\Desktop\Flask_PWA_Programming_For_The_Web_Task_Template\database\data_source.db
+
+SELECT * FROM extension;
