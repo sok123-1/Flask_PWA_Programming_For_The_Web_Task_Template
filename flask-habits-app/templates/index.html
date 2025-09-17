@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Habitly – Your Habit Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/static/icons/favicon.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Add your styles here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .habit-form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .habit-form input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+    .habit-form button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .habit-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .habit-list li {
+      background: white;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Habitly</h1>
+  </header>
+  
+  <main>
+    <div class="habit-form">
+      <input type="text" id="habit-name" placeholder="Enter a new habit" />
+      <button id="add-habit">Add Habit</button>
+    </div>
+    
+    <ul class="habit-list" id="habit-list">
+      <!-- Existing habits will be displayed here -->
+      {% for habit in habits %}
+        <li>{{ habit.name }}</li>
+      {% endfor %}
+    </ul>
+  </main>
+
+  <script>
+    document.getElementById('add-habit').addEventListener('click', function() {
+      const habitName = document.getElementById('habit-name').value;
+      if (habitName) {
+        // Logic to add habit (e.g., send to server)
+        document.getElementById('habit-name').value = ''; // Clear input
+      }
+    });
+  </script>
+</body>
+</html>

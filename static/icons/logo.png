@@ -1,0 +1,4 @@
+<div class="header-logo">
+  <img src="/static/icons/logo.png" alt="Habitly Logo" style="width:2.5rem; height:2.5rem; border-radius:0.7rem; box-shadow:0 2px 8px rgba(37,99,235,0.10);" />
+  <span class="header-title">Habitly</span>
+</div>
