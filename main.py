@@ -6,7 +6,6 @@ app.secret_key = 'your_secret_key'  # Needed for session
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # For demo: accept any email/password
         email = request.form.get('email')
         password = request.form.get('password')
         if email and password:
@@ -31,7 +30,6 @@ def logout():
 def habits():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    # Demo: habits are not persisted
     habits = []
     if request.method == 'POST':
         habit_name = request.form.get('habit_name')
@@ -45,7 +43,10 @@ def sign_in():
 
 @app.route('/streaks', methods=['GET', 'POST'])
 def streaks():
-    return render_template('streaks.html', image_url="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80")
+    return render_template(
+        'streaks.html',
+        image_url="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
+    )
 
 @app.context_processor
 def inject_logo():

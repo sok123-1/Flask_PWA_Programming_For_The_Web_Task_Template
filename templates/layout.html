@@ -1,22 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self';" />
-    <link rel="stylesheet" href="static/css/style.css" />
-    <title>VSCode Extension Catalogue</title>
-    <link rel="manifest" href="static/manifest.json" />
-    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Habitly — Minimal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <!-- minimal green circular logo (SVG inline so no file needed) -->
+        <svg class="brand-mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#059669"/></linearGradient></defs>
+          <circle cx="24" cy="24" r="22" fill="#ffffff" stroke="url(#g)" stroke-width="3.5" />
+          <text x="50%" y="55%" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="20" fill="#059669">H</text>
+        </svg>
+        <span class="brand-title">Habitly</span>
+      </a>
 
-  <body>
-    <main>
-      {% include "partials/menu.html" %} {% block content %}{% endblock %}
-    </main>
-    <script src="static/js/app.js"></script>
-  </body>
+      <nav class="nav">
+        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+        <a class="nav-link {% if request.path.startswith('/habits') %}active{% endif %}" href="/habits">Habits</a>
+        <a class="nav-link {% if request.path.startswith('/streaks') %}active{% endif %}" href="/streaks">Streaks</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {{ (current_year if (current_year is defined) else '') }} Habitly — Minimal • built with focus</p>
+    </div>
+  </footer>
+
+  <!-- small helper script to inject current year (optional) -->
+  <script>
+    (function(){
+      const el = document.querySelector('.site-footer p');
+      if(el && !el.textContent.includes(new Date().getFullYear())){
+        el.textContent = '© ' + new Date().getFullYear() + ' Habitly — Minimal • built with focus';
+      }
+    })();
+  </script>
+</body>
 </html>
 
 
