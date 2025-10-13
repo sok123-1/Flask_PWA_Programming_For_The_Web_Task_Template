@@ -382,128 +382,73 @@
   </header>
 
   <main class="section">
-    <!-- Club Section -->
+    <!-- STATS SECTION: replaces clubs and members -->
     <div class="card">
-      <div class="text-center" style="margin-bottom:1.5rem;">
-        <h2>Join a Club</h2>
-        <p class="text-muted-foreground" style="font-size:1.08rem;">
-          Join a club based on your interests and compete with friends to reach your goals.
-        </p>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <p class="text-muted-foreground" style="margin:0">Overview</p>
+          <h2 style="margin:6px 0 0 0">Your Habit Stats</h2>
+          <p class="text-muted-foreground" style="margin:8px 0 0 0;max-width:60ch;">
+            Live stats across your habits — totals, averages and streak highlights. Data is sourced from your habits list.
+          </p>
+        </div>
+        <div style="min-width:240px;">
+          <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end">
+            <a class="btn ghost" href="/habits" style="margin-right:8px">Open Habits</a>
+            <a class="btn" href="/streaks">View Streaks</a>
+          </div>
+        </div>
       </div>
-      <img
-        class="club-img"
-        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGZyaWVuZHN8ZW58MXx8fHwxNzU3MDQ0NDE2fDA&ixlib=rb-4.1.0&q=80&w=400"
-        alt="Team collaboration"
-      />
-      <form class="input-row" onsubmit="return false;">
-        <input type="text" placeholder="Enter club code" />
-        <button class="btn" type="submit">Join Club</button>
-      </form>
-      <button class="btn btn-outline" style="width:100%;">
-        <span style="margin-right:0.5rem;vertical-align:middle;">
-          <!-- Plus icon -->
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;">
-            <path d="M9 4v10M4 9h10" />
-          </svg>
-        </span>
-        Create New Club
-      </button>
-    </div>
 
-    <!-- Current Club Members -->
-    <div class="card">
-      <div class="club-members-header">
-        <div class="club-members-title">
-          <!-- Users icon -->
-          <svg width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 00-3-3.87" />
-          </svg>
-          <h2>My Club</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:18px;">
+        <div style="padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fff9);border:1px solid rgba(5,150,105,0.04);">
+          <div style="font-size:13px;color:var(--muted-foreground)">Total habits</div>
+          <div id="home-stat-total" style="font-weight:700;color:var(--primary);margin-top:8px;font-size:20px">—</div>
         </div>
-        <span class="badge-secondary">4 members</span>
-      </div>
-      <div class="members-grid">
-        <!-- Member 1 -->
-        <div class="member-card">
-          <img class="member-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face" alt="Alex" />
-          <div class="member-info">
-            <p>Alex</p>
-            <span class="role">Productivity</span>
-          </div>
-          <div class="member-streak">
-            <!-- TrendingUp icon -->
-            <svg width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2">
-              <polyline points="3 12 7 8 11 12" />
-              <polyline points="7 8 7 3" />
-            </svg>
-            25
-          </div>
+        <div style="padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fff9);border:1px solid rgba(5,150,105,0.04);">
+          <div style="font-size:13px;color:var(--muted-foreground)">Completed today</div>
+          <div id="home-stat-completed" style="font-weight:700;color:var(--primary);margin-top:8px;font-size:20px">—</div>
         </div>
-        <!-- Member 2 -->
-        <div class="member-card">
-          <img class="member-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b73e09d8?w=64&h=64&fit=crop&crop=face" alt="Sam" />
-          <div class="member-info">
-            <p>Sam</p>
-            <span class="role">Self-care</span>
-          </div>
-          <div class="member-streak">
-            <svg width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2">
-              <polyline points="3 12 7 8 11 12" />
-              <polyline points="7 8 7 3" />
-            </svg>
-            18
-          </div>
+        <div style="padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fff9);border:1px solid rgba(5,150,105,0.04);">
+          <div style="font-size:13px;color:var(--muted-foreground)">Avg streak</div>
+          <div id="home-stat-average" style="font-weight:700;color:var(--primary);margin-top:8px;font-size:20px">—</div>
         </div>
-        <!-- Member 3 -->
-        <div class="member-card">
-          <img class="member-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt="Jordan" />
-          <div class="member-info">
-            <p>Jordan</p>
-            <span class="role">UX</span>
-          </div>
-          <div class="member-streak">
-            <svg width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2">
-              <polyline points="3 12 7 8 11 12" />
-              <polyline points="7 8 7 3" />
-            </svg>
-            32
-          </div>
-        </div>
-        <!-- Member 4 -->
-        <div class="member-card">
-          <img class="member-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Taylor" />
-          <div class="member-info">
-            <p>Taylor</p>
-            <span class="role">Habits</span>
-          </div>
-          <div class="member-streak">
-            <svg width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2">
-              <polyline points="3 12 7 8 11 12" />
-              <polyline points="7 8 7 3" />
-            </svg>
-            15
-          </div>
+        <div style="padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fff9);border:1px solid rgba(5,150,105,0.04);">
+          <div style="font-size:13px;color:var(--muted-foreground)">Longest streak</div>
+          <div id="home-stat-longest" style="font-weight:700;color:var(--primary);margin-top:8px;font-size:20px">—</div>
         </div>
       </div>
-      <div class="leaderboard">
-        <!-- Trophy icon -->
-        <svg class="leaderboard-icon" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="2">
-          <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z" />
-          <path d="M17 9a5 5 0 01-10 0" />
-        </svg>
-        <div class="leaderboard-text">
-          <div class="font-medium">Leaderboard</div>
-          <div class="text-muted-foreground">
-            Jordan is leading with 32 days!
+
+      <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:280px;">
+          <div style="margin-top:12px;padding:12px;border-radius:10px;background:#fff;border:1px solid rgba(6,49,42,0.03);">
+            <div style="font-weight:700">Insights</div>
+            <div id="home-insights" style="color:var(--muted-foreground);margin-top:8px;font-size:14px">
+              Loading insights...
+            </div>
+          </div>
+        </div>
+        <div style="min-width:240px;flex-basis:320px;">
+          <div style="padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#f7fff9);border:1px solid rgba(5,150,105,0.04);height:160px;display:flex;flex-direction:column;align-items:stretch;justify-content:center;">
+            <div style="font-weight:700;margin-bottom:8px">Weekly Sparkline</div>
+            <div id="home-chart" style="flex:1"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Progress Chart (Placeholder) -->
-    <div class="progress-card">
+    <!-- DETAILED STATS / LEADERBOARD CARD -->
+    <div class="card" style="margin-top:18px;">
+      <h2>Detailed Stats</h2>
+      <p class="text-muted-foreground" style="margin-top:6px">
+        Breakdown of habits and top performers (local demo data).
+      </p>
+      <div id="detailed-stats" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px"></div>
+    </div>
+    <script src="/static/js/home-stats.js"></script>
+     <!-- Progress Chart (kept for compatibility; can be removed later) -->
+    <!-- legacy progress area (optional) -->
+    <div class="progress-card" style="margin-top:18px;">
       <h2>Habits Completed</h2>
       <p class="text-muted-foreground" style="font-size:1.08rem;">
         Track your habit completion over the week
@@ -513,6 +458,9 @@
       </div>
     </div>
   </main>
+  <script src="/static/js/habits-actions.js"></script>
+  <script src="/static/js/progress-chart.js"></script>
+  <script src="/static/js/home-stats.js"></script>
 </body>
 </html>
 

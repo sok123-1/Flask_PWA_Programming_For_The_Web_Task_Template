@@ -11,7 +11,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/">
-        <!-- minimal green circular logo (SVG inline so no file needed) -->
+        <!-- inline green circle logo -->
         <svg class="brand-mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden>
           <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#059669"/></linearGradient></defs>
           <circle cx="24" cy="24" r="22" fill="#ffffff" stroke="url(#g)" stroke-width="3.5" />
@@ -28,8 +28,48 @@
     </div>
   </header>
 
-  <main class="container main-content">
-    {% block content %}{% endblock %}
+  <main class="container main-content" role="main">
+    <div>
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- SITE WIDE STATS SIDEBAR -->
+    <aside aria-labelledby="stats-heading" style="min-width:260px;">
+      <div class="card" style="position:sticky;top:88px;">
+        <h3 id="stats-heading" class="kicker" style="margin:0 0 10px 0">Habits Stats</h3>
+
+        <div id="site-stats" style="display:grid;gap:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:var(--subtle)">Total habits</div>
+            <div id="stat-total" style="font-weight:700;color:var(--accent-600)">—</div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:var(--subtle)">Completed today</div>
+            <div id="stat-completed" style="font-weight:700;color:var(--accent-600)">—</div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:var(--subtle)">Average streak</div>
+            <div id="stat-average" style="font-weight:700;color:var(--accent-600)">—</div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:var(--subtle)">Longest streak</div>
+            <div id="stat-longest" style="font-weight:700;color:var(--accent-600)">—</div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:var(--subtle)">Active streaks</div>
+            <div id="stat-active" style="font-weight:700;color:var(--accent-600)">—</div>
+          </div>
+
+          <div style="margin-top:12px">
+            <button id="refresh-stats" class="btn ghost" style="width:100%">Refresh</button>
+          </div>
+        </div>
+      </div>
+    </aside>
   </main>
 
   <footer class="site-footer">
@@ -38,15 +78,7 @@
     </div>
   </footer>
 
-  <!-- small helper script to inject current year (optional) -->
-  <script>
-    (function(){
-      const el = document.querySelector('.site-footer p');
-      if(el && !el.textContent.includes(new Date().getFullYear())){
-        el.textContent = '© ' + new Date().getFullYear() + ' Habitly — Minimal • built with focus';
-      }
-    })();
-  </script>
+  <script src="{{ url_for('static', filename='js/site-stats.js') }}"></script>
 </body>
 </html>
 
