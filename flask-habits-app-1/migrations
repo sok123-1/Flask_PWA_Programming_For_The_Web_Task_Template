@@ -1,0 +1,15 @@
+This directory contains migration scripts for managing database schema changes in the Flask Habits App.
+
+To create and apply migrations, you can use Flask-Migrate, which is built on top of Alembic. 
+
+To initialize the migrations directory, run the following command in your terminal:
+
+    flask db init
+
+To create a new migration after making changes to your models, run:
+
+    flask db migrate -m "Your migration message"
+
+To apply the migration to the database, run:
+
+    flask db upgrade

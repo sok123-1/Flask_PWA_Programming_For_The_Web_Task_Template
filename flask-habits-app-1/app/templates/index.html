@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Your Habits</title>
+</head>
+<body>
+    <header>
+        <img src="{{ logo_url }}" alt="Logo">
+        <h1>Welcome to Your Habits Tracker</h1>
+        <nav>
+            <a href="{{ url_for('habits') }}">My Habits</a>
+            <a href="{{ url_for('streaks') }}">My Streaks</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Your Current Habits</h2>
+        <p>Track your habits and see your progress!</p>
+        <div>
+            <h3>Habit List</h3>
+            <ul>
+                {% for habit in habits %}
+                    <li>{{ habit }}</li>
+                {% else %}
+                    <li>No habits added yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your Habits Tracker</p>
+    </footer>
+</body>
+</html>
