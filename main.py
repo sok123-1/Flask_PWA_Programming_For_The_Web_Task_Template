@@ -105,10 +105,25 @@ def dashboard():
     # pass user info to template if needed
     return render_template("dashboard.html", user_name=session.get("user_name"))
 
+@app.route("/stats")
+def stats():
+    if "user_id" not in session:
+        flash(("error", "Please sign in to access stats."))
+        return redirect(url_for("login_page"))
+    return render_template("stats.html", user_name=session.get("user_name"))
+
+@app.route("/diary")
+def diary():
+    if "user_id" not in session:
+        flash(("error", "Please sign in to access the diary."))
+        return redirect(url_for("login_page"))
+    return render_template("diary.html", user_name=session.get("user_name"))
+
 @app.route('/habits', methods=['GET', 'POST'])
 def habits():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
+    if "user_id" not in session:
+        flash(("error", "Please sign in to access habits."))
+        return redirect(url_for("login_page"))
     habits = []
     if request.method == 'POST':
         habit_name = request.form.get('habit_name')
